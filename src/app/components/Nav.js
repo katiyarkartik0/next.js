@@ -15,7 +15,7 @@ const Nav = () => {
             <Link className={styles.navbarLink} href="/movie">Movie</Link>
           </li>
           <li className={styles.navbarItem}>
-            <Link className={styles.navbarLink} href="/">Contact</Link>
+            <Link className={styles.navbarLink} href="/contact">Contact</Link>
           </li>
         </ul>
       </div>
