@@ -1,12 +1,12 @@
-import dbConn from "@/utils/dbConn";
-import Contact from "@/models/contact";
+import Contact from "@/app/models/contact";
+import dbConnect from "@/app/utils/dbConn";
 import {NextResponse} from "next/server";
 
 export async function POST(req, res) {
     try {
 
         const body = await req.json();
-        await dbConn();
+        await dbConnect();
 
         await Contact.create(body);
 
@@ -18,7 +18,7 @@ export async function POST(req, res) {
 
     }catch (e) {
         return NextResponse.json(
-            { message: "Server error, please try again!" },
+            { message: e },
             { status: 500 }
         )
     }

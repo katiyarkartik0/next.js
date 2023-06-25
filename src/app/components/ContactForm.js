@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import styles from "@/app/contact/contact.module.css";
 import { Mulish } from "next/font/google";
@@ -17,21 +17,32 @@ const ContactForm = () => {
     phone: "",
     message: "",
   });
-  const handleSubmit = async() => {
-    try{
-        const response  = await fetch('/api/contact',{
-            method:'POST',
-            headers:{"Content_Type":"application/json"},
-            body: JSON.stringify({
-                username:user.username,
-                email:user.email,
-                phone:user.phone,
-                message:user.message
-            })
-        })
-    }
-    catch(e){
-        console.log(e)
+  const [status,setStatus] = useState("")
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { Content_Type: "application/json" },
+        body: JSON.stringify({
+          username: user.username,
+          email: user.email,
+          phone: user.phone,
+          message: user.message,
+        }),
+      });
+      if (response.status === 200) {
+        setUser({
+          username: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+        setStatus('success')
+      }
+    } catch (e) {
+      console.log(e);
+      setStatus('error')
     }
   };
   const handleChange = (e) => {
@@ -78,7 +89,7 @@ const ContactForm = () => {
             id="phone"
             placeholder="enter your phone"
             className={mulish.phone}
-            value={user.username}
+            value={user.phone}
             onChange={handleChange}
           ></input>
         </label>
@@ -97,6 +108,9 @@ const ContactForm = () => {
         </label>
       </div>
       <div>
+        {status === 'success' && <p className={styles.success_msg}>thank you for message</p>}
+        {status === 'error' && <p className={styles.error_msg}>there eas an error submitting your message, please retry</p>}
+
         <button type="submit" className={mulish.className}>
           Send message
         </button>
